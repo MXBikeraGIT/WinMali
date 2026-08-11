@@ -23,6 +23,7 @@ add_library(winlator SHARED
         winlator/xconnector_epoll.c
         winlator/alsa_client.c
         winlator/vulkan.c
+        winlator/RamL.cpp
 )
 
 target_compile_options(winlator PRIVATE -Wall -Wextra)
@@ -68,4 +69,3 @@ target_link_libraries(vulkan_renderer
         dl
         atomic
 )
-
