@@ -58,7 +58,11 @@ jobs:
     - name: Build standard debug variant
       run: ./gradlew assembleStandardDebug
 
-    - name: Create Testing Release and Upload APK
+    - name: Archive APK into WinMali.zip (Ultra Compression)
+      run: |
+        7z a -tzip -mx=9 WinMali.zip ./app/build/outputs/apk/standard/debug/app-standard-debug.apk
+
+    - name: Create Testing Release and Upload Archive
       uses: softprops/action-gh-release@v2
       with:
         tag_name: testing
@@ -68,4 +72,4 @@ jobs:
         ram limit mb is how much ram the limiter should allow applications or games.
         raml fallback is an optional fall back option if your game crashes with limited ram."
         prerelease: false
-        files: app/build/outputs/apk/standard/debug/app-standard-debug.apk
+        files: WinMali.zip
