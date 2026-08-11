@@ -63,6 +63,9 @@ jobs:
       with:
         tag_name: testing
         name: "testing"
-        body: "make a release for testers"
-        prerelease: true
+        body: "make a release for testers. enviroment variables: FAKERAM_AMOUNT RAM_LIMIT_MB RAML_FALLBACK
+        fakeram ammount is how much ram in mb will be faked on apps and games
+        ram limit mb is how much ram the limiter should allow applications or games.
+        raml fallback is an optional fall back option if your game crashes with limited ram."
+        prerelease: false
         files: app/build/outputs/apk/standard/debug/app-standard-debug.apk
