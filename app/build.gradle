@@ -25,8 +25,6 @@ tasks.register("downloadAssets") {
     def assetDir = new File(project.rootDir, ["app","src","main","assets"].join(File.separator))
     def files = [
         [name: "imagefs.tzst", url: "https://github.com/GunaCharanTeja/Winlator-Extras/releases/download/Sd/imagefs.tzst"],
-        [name: "proton-10-arm64ec.tzst", url: "https://github.com/GunaCharanTeja/Winlator-Extras/releases/download/Sd/proton-10-arm64ec.tzst"],
-        [name: "proton-9.0-arm64ec.tzst", url: "https://github.com/GunaCharanTeja/Winlator-Extras/releases/download/Sd/proton-9.0-arm64ec.tzst"],
         [name: "proton-9.0-x86_64.tzst", url: "https://github.com/GunaCharanTeja/Winlator-Extras/releases/download/Sd/proton-9.0-x86_64.tzst"]
     ]
 
@@ -97,7 +95,7 @@ android {
         targetSdkVersion 28
 
         versionCode 20
-        versionName "1.0 Bionic"
+        versionName "1.0 WinMali"
 
         // External native build from Winlator
         externalNativeBuild {
@@ -117,7 +115,7 @@ android {
         standard {
             dimension "version"
             applicationId "com.winlator.mali"
-            resValue "string", "app_name", "Winlator Mali"
+            resValue "string", "app_name", "WinMali"
         }
         antutu {
             dimension "version"
