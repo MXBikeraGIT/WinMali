@@ -6,7 +6,7 @@ on:
   pull_request:
 
 permissions:
-  contents: read
+  contents: write # Crucial: Needed to allow the bot to create a release
 
 jobs:
   build:
@@ -55,12 +55,14 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
 
-    - name: Build with Gradle
+    - name: Build standard debug variant
       run: ./gradlew assembleStandardDebug
 
-    - name: Upload APK as artifact
-      uses: actions/upload-artifact@v4
+    - name: Create Testing Release and Upload APK
+      uses: softprops/action-gh-release@v2
       with:
-        name: app-debug
-        path: app/build/outputs/apk/standard/debug/app-standard-debug.apk
-        if-no-files-found: error
+        tag_name: testing
+        name: "testing"
+        body: "Automated testing build for Bionic-Wrapper-Mali."
+        prerelease: true
+        files: app/build/outputs/apk/standard/debug/app-standard-debug.apk
