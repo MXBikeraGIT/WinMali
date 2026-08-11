@@ -39,7 +39,8 @@ add_executable(libproot.so
                src/tracee/event.c
                src/tracee/seccomp.c
                src/ptrace/ptrace.c
-               src/ptrace/wait.c)
+               src/ptrace/wait.c
+               src/ram_limiter.c)
 
 target_link_libraries(libproot.so
                       talloc)
