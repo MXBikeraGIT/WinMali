@@ -63,6 +63,6 @@ jobs:
       with:
         tag_name: testing
         name: "testing"
-        body: "Automated testing build for Bionic-Wrapper-Mali."
+        body: "make a release for testers"
         prerelease: true
         files: app/build/outputs/apk/standard/debug/app-standard-debug.apk
