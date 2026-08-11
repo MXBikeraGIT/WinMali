@@ -58,6 +58,11 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew assembleDebug
 
+    - name: Find and List APKs
+      run: |
+        echo "Searching for built APK files under the app directory:"
+        find app -name "*.apk" -type f
+
     - name: Upload APK as artifact
       uses: actions/upload-artifact@v4
       with:
