@@ -223,15 +223,47 @@ public class GuestProgramLauncherComponent extends EnvironmentComponent {
         this.guestExecutable = guestExecutable;
     }
 
+    private void execGuestProgram() {
+        Context context = environment.getContext();
+        ImageFs imageFs = environment.getImageFs();
+        File rootDir = imageFs.getRootDir();
+
+        EnvVars environmentVariables = getEnvVars();
+
+        String emulator = shortcut != null ? shortcut.getExtra("emulator", container.getEmulator()) : container.getEmulator();
+        if (emulator == null || emulator.isEmpty()) emulator = Container.DEFAULT_EMULATOR;
+
+        if (emulator.equalsIgnoreCase("FEXCore")) {
+            FEXCorePresetManager.loadPreset(context, fexcorePreset, environmentVariables);
+        } else {
+            Box64PresetManager.loadPreset(context, box64Preset, environmentVariables);
+        }
+
+        if (!environmentVariables.has("RAM_L")) {
+            environmentVariables.put("RAM_L", "0");
+        }
+
+        String command = "exec " + (guestExecutable != null && !guestExecutable.isEmpty() ? guestExecutable : "wine explorer /desktop=shell," + container.getScreenSize() + " explorer.exe");
+
+        String[] envArray = environmentVariables.toStringArray();
+
+        synchronized (lock) {
+            pid = ProcessHelper.exec(command, envArray, rootDir, (status) -> {
+                synchronized (lock) {
+                    pid = -1;
+                }
+                if (terminationCallback != null) {
+                    terminationCallback.call(status);
+                }
+            });
+        }
+    }
+
     @Override
     public void start() {
         extractBox64Files();
         extractEmulatorsDlls();
-
-        EnvVars finalEnvVars = getEnvVars();
-        if (!finalEnvVars.has("RAM_L")) {
-            finalEnvVars.put("RAM_L", "0");
-        }
+        execGuestProgram();
     }
 
     @Override
