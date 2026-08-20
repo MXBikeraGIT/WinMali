@@ -233,10 +233,19 @@ public class GuestProgramLauncherComponent extends EnvironmentComponent {
         String emulator = shortcut != null ? shortcut.getExtra("emulator", container.getEmulator()) : container.getEmulator();
         if (emulator == null || emulator.isEmpty()) emulator = Container.DEFAULT_EMULATOR;
 
+        String currentBox64Preset = shortcut != null ? shortcut.getExtra("box64Preset", container.getBox64Preset()) : (container != null ? container.getBox64Preset() : box64Preset);
+        String currentFEXCorePreset = shortcut != null ? shortcut.getExtra("fexcorePreset", container.getFEXCorePreset()) : (container != null ? container.getFEXCorePreset() : fexcorePreset);
+
         if (emulator.equalsIgnoreCase("FEXCore")) {
-            FEXCorePresetManager.loadPreset(context, fexcorePreset, environmentVariables);
+            FEXCorePreset preset = FEXCorePresetManager.getPreset(context, currentFEXCorePreset);
+            if (preset != null) {
+                FEXCorePresetManager.loadPreset(context, preset, environmentVariables);
+            }
         } else {
-            Box64PresetManager.loadPreset(context, box64Preset, environmentVariables);
+            Box64Preset preset = Box64PresetManager.getPreset(context, currentBox64Preset);
+            if (preset != null) {
+                Box64PresetManager.loadPreset(context, preset, environmentVariables);
+            }
         }
 
         if (!environmentVariables.has("RAM_L")) {
