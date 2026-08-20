@@ -239,12 +239,12 @@ public class GuestProgramLauncherComponent extends EnvironmentComponent {
         if (emulator.equalsIgnoreCase("FEXCore")) {
             FEXCorePreset preset = FEXCorePresetManager.getPreset(context, currentFEXCorePreset);
             if (preset != null) {
-                FEXCorePresetManager.loadPreset(context, preset, environmentVariables);
+                environmentVariables.putAll(preset.getEnvVars());
             }
         } else {
-            Box64Preset preset = Box64PresetManager.getPreset(context, currentBox64Preset);
+            Box64Preset preset = Box64PresetManager.getPreset("BOX64", context, currentBox64Preset);
             if (preset != null) {
-                Box64PresetManager.loadPreset(context, preset, environmentVariables);
+                environmentVariables.putAll(preset.getEnvVars());
             }
         }
 
