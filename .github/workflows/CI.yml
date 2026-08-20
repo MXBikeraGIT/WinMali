@@ -60,7 +60,7 @@ jobs:
 
     - name: Archive APK into WinMali.zip (Ultra Compression)
       run: |
-        7z a -tzip -mx=9 WinMali.zip ./app/build/outputs/apk/standard/debug/app-standard-debug.apk
+        7z a -tzip -mx=0 WinMali.zip ./app/build/outputs/apk/standard/debug/app-standard-debug.apk
 
     - name: Create Testing Release and Upload Archive
       uses: softprops/action-gh-release@v2
