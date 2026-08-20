@@ -27,7 +27,7 @@ public class Container {
         BUTTON_A, BUTTON_B, BUTTON_X, BUTTON_Y, BUTTON_GRIP, BUTTON_TRIGGER,
         THUMBSTICK_UP, THUMBSTICK_DOWN, THUMBSTICK_LEFT, THUMBSTICK_RIGHT
     }
-    public static final String DEFAULT_ENV_VARS = "WRAPPER_MAX_IMAGE_COUNT=0 ZINK_DESCRIPTORS=lazy ZINK_DEBUG=compact MESA_SHADER_CACHE_DISABLE=false MESA_SHADER_CACHE_MAX_SIZE=512MB mesa_glthread=true WINEESYNC=1 DXVK_HUD=devinfo,fps,memory,gpuload,version,api PULSE_LATENCY_MSEC=40 WRAPPER_NO_PATCH_OPCONSTCOMP=1";
+    public static final String DEFAULT_ENV_VARS = "RAM_L=0 WRAPPER_MAX_IMAGE_COUNT=0 ZINK_DESCRIPTORS=lazy ZINK_DEBUG=compact MESA_SHADER_CACHE_DISABLE=false MESA_SHADER_CACHE_MAX_SIZE=512MB mesa_glthread=true WINEESYNC=1 DXVK_HUD=devinfo,fps,memory,gpuload,version,api PULSE_LATENCY_MSEC=40 WRAPPER_NO_PATCH_OPCONSTCOMP=1";
     public static final String DEFAULT_SCREEN_SIZE = "1280x720";
     public static final String DEFAULT_GRAPHICS_DRIVER = "wrapper";
     public static final String DEFAULT_RENDERER = "opengl_es";
@@ -96,8 +96,6 @@ public class Container {
     private int rendererUpscaleSharpness = 75;
 
     private ContainerManager containerManager;
-
-
 
     public Container(int id) {
         this.id = id;
@@ -696,16 +694,14 @@ public class Container {
         return cpuList;
     }
 
-    // Check if a specific environment variable exists
     public boolean hasEnvVar(String keyValue) {
         if (envVars == null || envVars.isEmpty()) return false;
-        String[] vars = envVars.split(",");
+        String[] vars = envVars.split(" ");
         for (String var : vars) {
             if (var.trim().equalsIgnoreCase(keyValue.trim())) {
-                return true; // Found the variable
+                return true;
             }
         }
         return false;
     }
-
 }
