@@ -58,10 +58,6 @@ jobs:
     - name: Build standard debug variant
       run: ./gradlew assembleStandardDebug
 
-    - name: Archive APK into WinMali.zip (Ultra Compression)
-      run: |
-        7z a -tzip -mx=0 WinMali.zip ./app/build/outputs/apk/standard/debug/app-standard-debug.apk
-
     - name: Create Testing Release and Upload Archive
       uses: softprops/action-gh-release@v2
       with:
@@ -69,4 +65,4 @@ jobs:
         name: "testing"
         body: "env var is RAM_L value measured in megabytes"
         prerelease: false
-        files: WinMali.zip
+        files: ./app/build/outputs/apk/standard/debug/app-standard-debug.apk
