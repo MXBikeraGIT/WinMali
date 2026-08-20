@@ -31,6 +31,7 @@
 #include <unistd.h>        /* getpid(2),  */
 #include <errno.h>         /* errno(3), */
 #include <limits.h>        /* INT_MAX, */
+#include <sys/resource.h>  /* setrlimit(2), RLIMIT_AS */
 
 #include "cli/cli.h"
 #include "cli/note.h"
@@ -39,6 +40,27 @@
 #include "path/binding.h"
 #include "path/canon.h"
 #include "path/path.h"
+
+/**
+ * Limit process virtual memory space based on RAM_L environment variable (in MB).
+ * Example: RAM_L=1200 caps address space to 1.20 GB.
+ */
+static void apply_ram_limit(void)
+{
+	const char *ram_l = getenv("RAM_L");
+	if (ram_l != NULL && *ram_l != '\0') {
+		long long ram_mb = atoll(ram_l);
+		if (ram_mb > 0) {
+			struct rlimit limit;
+			rlim_t limit_in_bytes = (rlim_t)ram_mb * 1024ULL * 1024ULL;
+
+			limit.rlim_cur = limit_in_bytes;
+			limit.rlim_max = limit_in_bytes;
+
+			setrlimit(RLIMIT_AS, &limit);
+		}
+	}
+}
 
 /**
  * Print a (@detailed) usage of PRoot.
@@ -376,6 +398,9 @@ int main(int argc, char *const argv[])
 {
 	Tracee *tracee;
 	int status;
+
+	/* Parse and enforce RAM limit from environment if present */
+	apply_ram_limit();
 
 	/* Configure the memory allocator.  */
 	talloc_enable_leak_report();
